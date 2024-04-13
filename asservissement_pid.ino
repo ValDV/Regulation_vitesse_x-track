@@ -21,19 +21,19 @@ void loop() {
   potar = analogRead(0);
   consigne = (potar / 675) * 300;
   PWM = (potar / 675) * 255;
-  digitalWrite(8, HIGH);
-  digitalWrite(8, LOW);
+
+  // Écrire HIGH sur un pin et LOW sur l'autre pour contrôler le sens du moteur
+  digitalWrite(4, HIGH);
+  digitalWrite(5, LOW);
   analogWrite(5, PWM);
 
   value1 = digitalRead(3);
   dvalue = value2 - value1;
   value2 = value1;
-  if (dvalue > 1) {
-    count = count + 1;
-    if (count >= 16) {
-      mesure();
-    }
+  if (dvalue != 0) {  // Appeler mesure() à chaque changement de valeur
+    mesure();
   }
+
   t = millis();
   if (t >= (n * 100)) {
     n = n + 1;
@@ -41,15 +41,14 @@ void loop() {
   }
 }
 
-int mesure() {
+void mesure() {
   t2 = millis();
   dt = t2 - t1;
   N = (1 / dt);
   Nmr = N / 12;
   t1 = t2;
-  count = 0;
+  count = count + 1;
   Serial.println(Nmr);
-  return N;
 }
 
 double somme_erreur = 0;
@@ -58,6 +57,7 @@ double ki = 0.1;
 double kd = 0.01;
 
 void controlerMoteur(double vitesse) {
+  analogWrite(5, vitesse);  // Contrôler la vitesse du moteur en utilisant PWM sur le pin 5
 }
 
 void asservissement_PID() {
