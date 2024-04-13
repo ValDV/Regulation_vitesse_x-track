@@ -22,7 +22,6 @@ void loop() {
   consigne = (potar / 675) * 300;
   PWM = (potar / 675) * 255;
 
-  // Écrire HIGH sur un pin et LOW sur l'autre pour contrôler le sens du moteur
   digitalWrite(4, HIGH);
   digitalWrite(5, LOW);
   analogWrite(5, PWM);
@@ -30,7 +29,7 @@ void loop() {
   value1 = digitalRead(3);
   dvalue = value2 - value1;
   value2 = value1;
-  if (dvalue != 0) {  // Appeler mesure() à chaque changement de valeur
+  if (dvalue != 0) {
     mesure();
   }
 
@@ -57,7 +56,7 @@ double ki = 0.1;
 double kd = 0.01;
 
 void controlerMoteur(double vitesse) {
-  analogWrite(5, vitesse);  // Contrôler la vitesse du moteur en utilisant PWM sur le pin 5
+  analogWrite(5, vitesse);
 }
 
 void asservissement_PID() {
